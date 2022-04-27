@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Audio n Video</title>
+        <!--jquery-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- bootstrap-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!--collegamenti file esterni-->
+        <!--file css-->
+        <link rel="stylesheet" href="assets/css/file.css">
+        <!-- file js-->
+        <script type="text/javascript" src="assets/js/file.js"></script>
+            
+    </head>
+
+    <body>
+
+        <h1 class="bg-dark text-white">MY PLAYER 1.0</h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div id="sezione1" class="col-5">
+                    <h1>Audio</h1>
+                    <p>Seleziona un brano in elenco per ascoltare la musica</p>
+                    <div class="row">
+                        <div class="col-5">
+                            <ul class="list-group">
+                                <li class="list-group"><button id="btn1" onclick="audio1()">heartbeat</button></li>
+                                <li class="list-group"><button id="btn2" onclick="audio2()">honky tonky piano</button></li>
+                                <li class="list-group"> <button id="tbn3" onclick="audio3()"> mastermind</button></li>  
+                            </div>
+                            <audio id="audio" controls class="col-md-6"></audio>
+                        </div>
+                </div>
+
+                <div id="sezione2" class="col-5">
+                    <h1>Video</h1>
+                    <p>Seleziona un video in elenco per visualizzarlo</p>
+                    <div class="row">
+                        <div class="col-6">
+                            <ul class="list-group">
+                               <li class="list-group"> <button id="btn4" onclick="video1()">Sea by night</button></li>
+                               <li class="list-group"> <button id="btn5" onclick="video2()">Flight</button></li>
+                               <li class="list-group"> <button id="btn6" onclick="video3()">Sea</button></li>
+                            </ul>
+                    </div>
+                    <video id="video" controls class="col-6"></video>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+            $(document).ready(function() {
+                $.ajax({
+                    type:"get",
+                    url: "assets/js/media.json",
+                    dataType:"json",
+                    success: {
+                        
+                    }
+                })
+            })
+
+        </script>
+    </body>
