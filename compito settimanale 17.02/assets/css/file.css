@@ -1,0 +1,11 @@
+body {
+    margin-top: 20px;
+}
+#sezione1 {
+    border: 1px solid black;
+    margin-right: 10px;
+}
+#sezione2 {
+    border: 1px solid black;
+    margin-left: 10px;
+}
