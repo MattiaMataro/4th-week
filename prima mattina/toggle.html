@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>esempio toggle</title>
+        <meta charset="utf-8">
+        <script src="jquery-3.5.1.min.js"></script>
+        <meta name="viewport" content="width-device-width-initial-scale=1.0"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+        <script>
+            $("document").ready(function(){                 //attivazione quando la pagina viene aperta completa
+                $("#hide").click(function(){            // prende l'id hide e gli da la funzione click
+                    $("p").hide();                      //prende il paragrafo p e lo nasconde
+                });
+                $("#show").click(function() {
+                    $("p").show();
+                });
+            })
+        </script>
+       </head>
+       <body>
+           <p>Se clicchi hide si nasconde se clicchi show appare</p>
+           <button id="hide"> hide</button>
+           <button id="show"> show</button>
+           
+        <script>
+
+        </script>
+       </body>
+
+</html>

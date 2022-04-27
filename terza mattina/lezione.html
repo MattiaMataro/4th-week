@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settimana 4 - lezione 3</title>
+</head>
+
+<body>
+    <script>
+        // HISTORY -> funzioni e proprietà di .history
+        window.history.length                           // restituisce il numero di elementi presenti nell'oggetto history
+        window.history.state                            // restituisce lo stato corrente dell'oggetto (dove ci troviamo)
+        window.history.go(n)                            // ci permette di spostarci avanti/indietro nella storia di n step
+        window.history.back()                           // ci fa muovere un passo indietro
+        window.history.forward()                        // ci fa muovere un passo avanti
+        window.history.pushState(data, title, url)      // ci permette di inserire uno step all'interno di history
+                                                        // potremo specificare titolo della pagina, tipo e url
+        // come si aggiunge una url alla cronologia di history? -> history.pushState({state}, "titolo", "url")
+        window.history.replaceState(data, title, url)   // ci permette di sostituire lo stato corrente con le info dei parametri
+
+        // GEOLOCATION -> servono a definire una struttura dati atta a contenere dati geospaziali
+        // due metodi, entrambe servono a ottenere la posizione corrente 1. getCurrentPosition 2.watchPosition
+        // il primo restituisce la posizione una sola volta, il secondo si attiva ogni volta che la posizione cambia
+        // sintassi per invocare questi metodi
+        navigator.geolocation.getCurrentPosition(inCasoDiSuccesso, opzInCasoDiErrore, opzioni);
+        navigator.geolocation.watchPosition(inCasoDiSuccesso, opzInCasoDiErrore, opzioni);
+        // il primo argomento contiene i riferimenti a una funzione da eseguire al corretto recupero delle informazioni geospaziali
+        // il secondo argomento (opzionale) punta a una funzione che viene invocata in caso di errore
+        // il terzo argomento (facoltativo) può essere usato per specificare alcune opzioni {opzione1: valore1, ...}
+        // opzioni disponibili sono tre
+        // 1.enableHighAccurancy (true|false) -> dico al browser se cercare di ottenere dati più accurati possibile
+        // 2.timeout(millisecondi)            -> tempo massimo concesso al browser per recuperare la posizione dell'utente
+        //                                    -> in caso di fallimento viene invocata la funzione associata al secondo argomento
+        // 3.maximumAge(millisecondi)         -> dico al browser di effettuare una ricerca preventiva nella cache di un dato non più vecchio di tot millisecondi
+        //                                    -> se esiste questo dato viene resituito come posizione corrente  
+        inCasoDiSuccesso = function(position){// la funzione accetta un argomento, un oggetto position, che contiene tutte le info recuperate
+            alert("Posizione delle:" + position.timestamp.getHours() + ":" + 
+            position.timestamp.getMinutes() + "n" +
+            "Accuratezza delle coordinate: " + position.coords.accuracy + " mt; n" +
+            "Latitudine: " + position.coords.latitude + "gradi; n" +
+            "Longitudine:" + position.coords.longitude + "gradi; n" + 
+            "Accuratezza dell'altezza: " + position.coords.altitudeAccuracy + "mt; n" +
+            "Altezza: " + position.coords.altitude + "mt; n" +
+            "Direzione: " + position.coords.heading + "gradi; n" +
+            "Velocità: " + position.coords.speed + "m/s" 
+            )
+        }   
+        // verifico il supporto alla specifica funzionalità
+        if (navigator.geolocation){                                     // se il supporto alla geolocalizzazione è presente
+            navigator.geolocation.getCurrentPosition(mostraPosizione);  // invoco il metodo getCurrentPosition dell'oggetto geolocation
+        }                                                               // forma più semplice, un argomento : la funzione da chiamare
+        function mostraPosizione(posizione) {
+            console.log("Latitudine: " + posizione.coords.latitude);
+            console.log("Longitudine: " + posizione.coords.longitude);
+            // proprietà -> latitude, longitude, accuracy, altitude, altitudeAccuracy, heading, speed, timestamp
+            // uniche sempre garantite -> latitude, longitude, accuracy, timestamp
+        }
+
+        // gestione errori -> secondo argomento
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(mostraPosizione, gestisciErrore);
+        }
+        function gestisciErrore(error) {    // la funzione riceve oggetto error il cui campo code indica la causa dell'errore
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("Permesso negato dall'utente");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Impossibile determinare la posizione");
+                    break;
+                case error.TIMEOUT:
+                    console.log("Il rilevamento della posizione impiega troppo tempo");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("Si è verificato un errore sconosciuto");
+                    break;
+            }
+        }
+        // uso anche le opzioni
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                mostraPosizione, 
+                gestisciErrore, 
+                {
+                    enableHighAccuracy: true,
+                    maximumAge: 60000,
+                    timeout: 5000
+                });
+        }
+
+        // *** Watch position *** 
+        // getCurrentPosition richiede la posizione corrente, watchPosition ottiene la posizione ogni volta che c'è una variazione
+        // i due metodi condividono gli stessi parametri, watchPosition() restituisce un valore numerico che identifica la watch associata
+        if (navigator.geolocation) {
+            watch = navigator.geolocation.watchPosition(
+                            mostraPosizione,
+                            gestisciErrore,
+                            {
+                                enableHighAccuracy: true,
+                                maximumAge: 10000,
+                                timeout: 2000
+                            });
+        }
+        // per interrompere la rilevazione:
+        navigator.geolocation.clearWatch(watch);
+
+
+        // ******* WEB WORKERS *******
+        // nascono dall'esigenza di eseguire porzioni di codice javascript in modo asincrono
+        // i web workers sono file javascript. sono comparabili a thread
+        // due classi diverse: Worker e SharedWorker
+        // Worker       -> l'esecuzione è limitata alla sessione di navigazione all'interno della tab del browser
+        // SharedWorker -> ogni sessione che condivide lo stesso dominio può connettersi e scambiare messaggi col medesimo worker
+        // Web worker è un thread che viene eseguito parallelamente all'esecuzione del thread principale
+
+        // supponiamo di avere un codice impegnativo da eseguire e insieriamolo in un file esterno workers.js
+        // file worker.js
+        function fase1() {
+            for(var i = 0; i<999999999; i++){}
+        }
+        function fase2() {
+            for(var i = 0; i<999999999; i++){}
+        }
+        // file principale
+        var myWorker = new Worker("worker.js");  // creo un'istanza di web worker tramite il costruttore Worker()
+                                        // interazione tra thread principale e thread secondario è basata su uno scambio di messaggi
+        myWorker.postMessage("start");  // primo messaggio che serve avviare l'elaborazione del nostro worker
+                                        // il metodo .postMessage consente lo scambio di messaggi tra thread e genera un evento                              
+        self.addEventListener("message", function(event){ // self fa riferimento al contesto globale del worker
+            if (event.data == "start") {                  // il worker dovrà intercettare e gestire questo evento
+                                                          // oggetto event che ha una proprietà data che rappresenta il messaggio inviato
+                fase1();                                    
+                fase2();
+            } 
+        })
+
+        // file worker.js
+        function fase1() {
+            for(var i = 0; i<999999999; i++){}
+        }
+        function fase2() {
+            for(var i = 0; i<999999999; i++){}
+        }
+        self.addEventListener("message", function(event) {
+            if (event.data == "start") {
+                self.postMessage("Elaborazione in corso: fase 1");
+                fase1();
+                self.postMessage("Elaborazione in corso: fase 2");
+                fase2();
+                self.postMessage("Fine elaborazione");
+            }
+        });
+
+        // file principale
+        // dovrà a sua volta intercettare l'evento message e gestirlo
+        // ad esempio aggiorno visualizzando lo stato di avanzamento dell'elaborazione
+        var msgDisplay = document.getElementById("msgDisplay");
+        var myWorker = new Worker("worker.js");
+        myWorker.postMessage("start");
+        myWorker.addEventListener("message", function(event) {
+            msgDisplay.innerHTML = event.data;
+        });
+
+        // quando finisce il thread il worker non termina l'elaborazione ma resta in attesa di nuovi messaggi
+        // è buona norma terminare il worker non appena ha terminato il suo compito. Due modi
+        // 1. self.close();             termino all'interno del worker stesso
+        // 2. myWorker.terminate();     termino dal thread principale
+
+        // gestione degli errori -> possiamo fare ricorso a un evento error
+        // tre proprietà 1. messaggio (message) 2.il file (filename) 3.il numero di linea (lineno)
+        myWorker.addEventListener("error", function(error){
+            console.log("Si è verficato l'errore" + error.message + "durante l'esecuzione del worker" + error.filename + "in corrispondenza della linea" + error.lineno);
+        })
+
+        // vincoli dei web worker
+        // 1. dall'interno di un web worker non è possibile accedere al DOM
+        // 2. dall'interno di un web worker non è possibile accedere agli oggetti del browser come window e console
+        // 3. same-origin policy un web worker può interagire solo con lo stesso server su cui è caricato il thread principale
+        // 4. meglio passare tipi di dati primitivi/strutture semplici. E' inibito il passaggio di funzioni
+        // !. le url per i collegamenti vengono risolte a partire dal thread padre e non rispetto all'indirizzo della pagina
+
+        // ******* Shared Worker *******
+        // Worker visti finora detti anche Dedicated Worker hanno una relazione diretta con lo script che li genera
+        // possono interagire solo con il thread che li ha generati
+        // Shared Worker possono interagire con tutti gli script che condividono la stessa origine (un sito o una app web)
+        // costruttore questa volta sarà SharedWorker();
+        
+        // file principale
+        var myWorker = new SharedWorker("worker.js");
+        // l'iterazione del thread principale con il worker condiviso avviene tramite una porta di comunicazione
+        // la porta di comunicazione dedicata è accessibile tramite la proprietà port
+        myWorker.port.postMessage("start");
+
+        // analogamente il worker può comunicare con il thread principale tramite l'evento connect
+        // connect si verifica quando creo l'istanza del worker
+        // SharedWorker
+        self.addEventListener("connect", function(event){
+            var ClientPort = event.source;      // oggetto event che mette a disposizione la proprietà source 
+                                                // che rappresenta la porta tramite cui comunicare con il thread principale
+            ClientPort.onmessage = function(event) {
+                var dati = event.data;
+                // elaborazione di dati
+                ClientPort.postMessage("Dati elaborati");
+            };
+        });
+
+        // file principale
+        var myWorker = new SharedWorker("worker.js");
+        myWorker.port.postMessage("start");
+        myWorker.port.onmessage = function(event) {/* codice da eseguire*/ };
+
+        // le comunicazioni da e verso lo SharedWorker transitano attraverso oggetti chiamati MessagePort
+        worker.port.postMessage('...');                  // invio di un messaggio ad uno SharedWorker
+        worker.port.onmessage = function(evento) {}      // ricezione di un messagio da uno SharedWorker
+        messageport_del_destinatario.postMessage('...'); // dall'interno di uno ShareWorker: invio di un messaggio
+        messageport_del_mittente.onmessage = function(evento){} // dall'interno di uno SharedWorker: ricezione di un messaggio
+   </script>
+</body>
+
+</html>

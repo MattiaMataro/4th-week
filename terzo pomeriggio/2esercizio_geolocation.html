@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <!--jquery-->
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <!--bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+        <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"      rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <style>
+        #target {
+            width: 800px;
+            height: 640px;
+        }
+    </style>
+    <script>
+        vai=function(position){
+	var mylat=position.coords.latitude;
+	var mylong=position.coords.longitude;
+	
+	var myOptions={ zoom:15, mapTypeId:google.maps.MapTypeId.ROADMAP} // zoom e tipo di mappa
+	var map=new google.maps.Map(document.getElementById('target'),myOptions); // disegna la mappa dentro il div target
+	var centro=new google.maps.LatLng(mylat,mylong); // centro mappa sulle coordinate
+	map.setCenter(centro);
+	var marker=new google.maps.Marker({position:centro,title:'Sei qui'}); // aggiungi il marker
+	marker.setMap(map);
+	}
+
+window.onload=function(){idK=navigator.geolocation.getCurrentPosition(vai);} // al caricamento prendo la posizione attuale e la passo alla funzione vai, che è definita alla riga 8
+    </script>
+
+</head>
+<body>
+    <div id="target"></div>
+    
+    <script>
+
+    </script>
+</body>

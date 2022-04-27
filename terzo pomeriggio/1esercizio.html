@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <!--jquery-->
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <!--bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+        <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"      rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card">
+                    <img src="https://picsum.photos/200" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Link One</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card's
+                            content.</p>
+                        <button id="btn1" class="btn btn-primary btn-history">Go somewhere</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <img src="https://picsum.photos/200/" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Link Two</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card's
+                            content.</p>
+                        <button id="btn2" class="btn btn-primary btn-history">Go somewhere</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <img src="https://picsum.photos/200/?grayscale" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Link Three</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card's
+                            content.</p>
+                        <button id="btn3" class="btn btn-primary btn-history">Go somewhere</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <img src="https://picsum.photos/200/" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Link Four</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card's
+                            content.</p>
+                        <button id="btn4" class="btn btn-primary btn-history">Go somewhere</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = {
+            init: function () {
+                window.onpopstate = app.events.popState;
+                // un evento popstate viene inviato a window ogni volta che la voce di cronologia attiva cambia 
+                // se l'oggetto history viene creato con history.pushState(), o history.replaceState() lancia l'evento popState
+                window.onload = app.events.onload;
+                app.eventHandlers();
+                // associa gli eventi definiti sotto e li ascolta
+            },
+            eventHandlers: function () {
+                //associa al click sui bottoni con classe btn-history l'evento mouseClick
+                $(".btn-history").click(app.events.mouseClick);
+            },
+            events: {
+                setPage: function (el) {
+                    //mette e toglie classi css
+                    $(".btn-history").addClass("btn-primary").removeClass("btn-success");
+                    $(el).addClass("btn-success").removeClass("btn-primary");
+                },
+                mouseClick: function (e) {
+                    //questo è quello che scrive nella history 1 riga e poi setta le classi riga 2
+                    history.pushState({ id: e.target.id }, 'History webpage', '?' + e.target.id);
+                    app.events.setPage("#" + e.target.id);
+                },
+                popState: function (event) {
+                    // questo fa il set page su tutti i bottoni con il ciclo each
+                    $(".btn-history").each(function (index, el) {
+                        app.events.setPage("#" + event.state.id);
+                    });
+                },
+                onload: function (event) {
+                	// setto la pagina giusta al caricamento
+                    var btn = location.href.slice(location.href.indexOf("?") + 1, location.href.length);
+                    app.events.setPage("#" + btn);
+                }
+            }
+        }
+        // al caricamento carica l'oggetto app init
+        $(document).ready(app.init);
+    </script>
+</body>
+</html>
+<!--
+l'esercizio serve a far vedere il funzionamento di history, in pratica al click cambia la url, non cambia la pagina e aggiunge alla cronologia di navigazione e quindi con il back del browser vedi le pagine aggiunte alla cronologia (navighi)
+-->
+<!--
+servono perché poi nella funzione li usi per ricavare delle proprietà dell'oggetto su cui si è scatenato l'evento
+per esempio al mouseclick leggi l'id dell'oggetto su cui hai cliccato (e.target.id)
+-->	
+<!-- e, el, event il nome diverso non è importante perché è un parametro e lo potresti chiamare come vuoi, ma per convenzione si usa e o event

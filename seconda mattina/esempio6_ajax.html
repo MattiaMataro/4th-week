@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="">
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width-device-width-initial-scale=1.0"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+        <title>jQuery</title>
+    </head>
+       <body>
+        <div id="loader"><img src="https://media1.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"></div>
+        <select id="province">
+            <option value="0"></option>
+        </select>
+           
+        <script>
+            $(document)
+            .ajaxStart(function() { $('#loader').show();})          //mostra quando inizia la chiamata
+            .ajaxStart(function() { $('#loader').hide();})          //nascondi quando finisce la chiamata
+            .ready(function() {
+                $.ajax({
+                    url: "assets/json/info2.json",
+                    type: 'get',
+                    dataType:'json',
+                    success:function(data) {
+                        $.each(data,function(i,el) {     //passo data al ciclo + due argomenti: 1.indice (i) 2.elementi
+                        var sigla =el.prov_it;          //associo alla variabile sigla il contenuto di prov_it per ogni elemento
+                        var nome = el.prov_nome;        //associo alla variabile el il contenuto di prov_nome per ogni elemento
+                        console.log(sigla+ ' '+nome);
+                        $('#province').append('<option value="' + sigla + ' ">'+nome+'</option>' );
+                        
+                        });
+                    }
+                });
+            })
+        </script>
+       </body>
+</html>

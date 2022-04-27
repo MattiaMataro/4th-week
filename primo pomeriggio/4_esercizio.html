@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>bottone</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width-device-width-initial-scale=1.0"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+       </head>
+       <body>
+           <h1>Primo testo</h1>
+           <h1>Secondo testo</h1>
+           <h1>Terzo testo</h1>
+
+           <button id="btn1">1 button</button>   <button id="btn2">2 button</button>    <button id="btn3">3 button</button> 
+
+       <div id="div1">Frase 1</div>
+       <div id="div2">Frase 2</div>
+
+<script>
+
+            $("#btn1").click (function (){
+                $("h1").toggle()
+            });
+
+            var i=0;
+            var colors = ["red", "black"]
+
+            $("#btn2").click (function (){
+                $("#div1").css("color", colors[i]);
+                (i < colors.lenght -1) ? i++ : i =0;
+            });
+            
+            $("#btn3").hover (function (){
+                $("#div2").text("abc")
+            });
+            
+
+
+    /*
+Scrivere un documento HTML contenente tre bottoni, tre elementi <h1> e due
+    elementi <div> e che utilizza JQuery per realizzare le seguenti funzioni:
+
+        quando viene premuto il primo bottone, il contenuto testuale di tutti gli elementi <h1>
+            viene cancellato;
+
+            • quando viene premuto il secondo bottone, il contenuto testuale del primo elemento <div>
+                viene visualizzato in rosso;
+
+                • quando il puntatore (mouse) viene posizionato sul terzo bottone, il contenuto testuale
+del secondo elemento <div> diventa uguale alla stringa abc.
+*/
+</script>
+</body>
+</html>

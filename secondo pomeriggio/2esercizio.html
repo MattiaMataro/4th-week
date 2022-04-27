@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width-device-width-initial-scale=1.0"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <title>jQuery</title>
+        <style>
+            div {
+                background-color: yellow;
+                height: 400px;
+                width: 400px;
+                position: absolute;
+                border-radius: 25%;
+                text-align: center;
+            }
+        </style>
+       <script>
+            $("document").ready(function(){
+                $("button").click(function() {
+                    var div = $("div");    
+                    div.animate({left: "200px",});
+                    div.animate({fontSize:"50px",});
+                    
+                });
+            });
+            /*
+            //*****sintassi a freccia******
+            //function per esteso
+            function square (x) {
+                return x * x;
+            }
+
+            var square = function (x) {
+                return x * x;
+            }
+
+            //conversione in sintassi a freccia
+            x => {return x * x}
+            x => {x * x}
+
+            //parametri
+            () => {...}     //nessun parametro
+            x => {...}      // parametro x
+            (x,y) => {...}  // parametri x e y
+            */
+       </script>
+       
+       
+       <body>
+
+        <button>Start animation</button>
+           <div><p>Povero gabbiano</p></div>
+
+
+
+            
+        </body>
+    </html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width-device-width-initial-scale=1.0"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <title>jQuery</title>
+       </head>
+
+
+    <body>
+    
+    
+    
+    	<fieldset>
+    		<legend>Form jQuery</legend>
+    		<label>Cliente</label><br>
+    		<br><br>
+    	</fieldset>
+    	<fieldset id="articolo1">
+    		<label>Articolo</label><br>
+    		<br><br>
+    		<label>Quantità</label><br>
+    		<br><br>
+    		<label>Prezzo</label><br>
+    		<br><br>
+    	</fieldset>
+    	<div id="nuovi_articoli"></div>
+    	
+    	
+    	
+    
+    
+    
+    <script>
+        $(document).ready(function() {
+        	$('input[type="button"]').on('click',function(){
+        		var n=parseInt($('#numero').val()); 
+        		// converte in un numero intero il valore che sto andando a leggere
+        		var totale=n+1;	// calcolo il totale che poi userò per modificare gli attributi
+        		console.log(totale); // scrivo il totale nella console
+        		$('#numero').val(totale); // cambio il value dell'id #numero
+        
+        		var obj=$('#articolo1').clone(); // clono tutto il blocco fieldset
+        
+        obj.attr({'id':'articolo'+totale});	// come stamattina: due stringhe -> imposto un attributo
+        obj.find('#articolo_1').attr({'name':'articolo_'+totale,'id':'articolo_'+totale}); // imposto un attributo
+        obj.find('#qt_1').attr({'name':'qt_'+totale,'id':'qt_'+totale}); // imposto un attributo
+        obj.find('#prezzo_1').attr({'name':'prezzo_'+totale,'id':'prezzo_'+totale}); // imposto un attributo
+        obj.append('<a href="#" class="elimina">Elimina</a>');
+        
+        		obj.appendTo('#nuovi_articoli'); // uso appendTo per agganciare il mio obj nell'html
+        		});
+        	$('#info').on('click','.elimina',function(){ 
+        		$(this).parent().remove();	// funzione che fa elimina agganciata alla class="elimina"
+        		})
+        	})
+    </script>
+
+</body> 

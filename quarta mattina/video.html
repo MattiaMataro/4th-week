@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>myaudio</title>
+        <!--jquery-->
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <!--bootstrap-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+            <!--bootstrap-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"      rel="stylesheet"
+            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    </head>
+    <body>
+        <video id="myvideo" src="assets/video/Flowers.mp4" width="400" poster="assets/video/poster.jpg"></video>
+
+        <button id="play" onclick="play()">Play</button>
+        <button id="Stop" onclick="stop()">Stop</button>
+
+        <span id="duration"></span>
+
+        <script>
+            var myvideo = document.getElementById("myvideo");
+            myvideo.addEventListener("timeupdate", showtime);
+            function showtime () {
+                document.querySelector("#duration").innerHTML = "Time: " + Math.round(myvideo.currentTime);   
+            }
+
+            function play () {
+                myvideo.play()
+            }
+
+            function stop() {
+                myvideo.pause();
+            }
+
+
+            // poster --> immagine di copertina del video
+            // controls --> applica controlli di default ai media (play, pause, barra di avanzamento, fullscreen)
+            // autoplay --> video parte in autoplay solo se muted
+            // loop --> il video/audio riparte in continuazione
+            // preload --> none/metadata/auto
+        </script>
+    </body>
+</html>

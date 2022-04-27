@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>bottone</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width-device-width-initial-scale=1.0"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+       </head>
+
+      
+
+       <body>
+            <span>Il colore del testo è <b>black</b></span>
+            <button id="change_btn">Change color</button>
+
+            <script>
+                var colors = [["red", "white"], ["black", "grey"], ["green", "gold"]];
+                var i = 0;
+                $("#change_btn").click(function () {
+                    $("body").css("background-color", colors[i][0]).css("color", colors[i][1]);
+                    $("span b").text(colors[i][1]);
+                    (i < colors.length - 1) ? i++ : i = 0;
+                })
+
+
+                
+            /*
+            sfondo red color white | sfondo black color grey | sfondo green color gold
+            */
+            </script>
+
+
+
+
+           </script>
+       </body>
+
+
+       
+
+
+
+
+
+
+
+       </html>

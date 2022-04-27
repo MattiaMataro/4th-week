@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>myvideo2</title>
+        <!--jquery-->
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+
+        <script>
+           var videoId = 'myvideo';
+var scaleFactor = 0.5;
+var snapshots = [];
+ 
+/*
+catturo il frame di un ummagine dall'elemento video
+1.parametro elemento da dove l'immagine deve essere catturata
+2.parametro è un numero -> scaleFactor -> la scala in cui restituire la cattura
+*/
+function capture(video, scaleFactor) {
+	if(scaleFactor == null){
+		scaleFactor = 1;
+	}
+	var w = video.videoWidth * scaleFactor;
+	var h = video.videoHeight * scaleFactor;
+	var canvas = document.createElement('canvas');
+		canvas.width  = w;
+	    canvas.height = h;
+	var ctx = canvas.getContext('2d');
+		ctx.drawImage(video, 0, 0, w, h);
+    return canvas;
+} 
+ 
+/*
+ * Invoca capture e agganciare il canvas al DOM.
+ */
+function shoot(){
+	var video  = document.getElementById(videoId);
+	var output = document.getElementById('output');
+	var canvas = capture(video, scaleFactor);
+	snapshots.unshift(canvas);
+	output.innerHTML = '';
+	for(var i=0; i<8; i++){
+		output.appendChild(snapshots[i]);
+	}
+}
+</script>
+</head>
+
+
+    <body>
+        <div> <input type="button">Cattura</div>
+        <div>
+        <video id="myvideo" poster="assets/video/poster.jpg" controls>
+            
+        </video>
+        </div>
+    	<div id="output" style="border: dotted 1px #ccc;padding: 2px"></div>
+    </body>
+
+
+
+</html>

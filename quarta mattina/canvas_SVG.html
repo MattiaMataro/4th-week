@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>myvideo2</title>
+        <!--jquery-->
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <style type="text/css">
+            body {margin: 20px;}
+            canvas { border: 1px solid black; float: left; margin: 20px;}
+            svg { border: 1px solid red; width: 300px; background: url(assets/img/backdrop.png) no-repeat top left; }
+        </style>
+        <script>
+            function draw () {
+                var ctx = document.getElementById('myCanvas').getContext('2d');
+                var img = new Image();
+                img.src = 'assets/img/backdrop.png';
+                img.onload = function () {
+                    ctx.drawImage(img,0,0);
+                    ctx.beginPath();
+                    ctx.moveTo(40,96);
+                    ctx.lineTo(70,66);
+                    ctx.lineTo(103,76);
+                    ctx.lineTo(170,15);
+                    ctx.stroke();
+                }
+            }
+        </script>
+    
+        </head>
+
+        <body onload="draw()">
+        
+        
+            <canvas id="myCanvas"></canvas>
+            <svg id="svgelem" height="200">
+                <line x1="40" y1="100" x2="80" y2="30" style="stroke:red;stroke-width:2"></line>
+                <line x1="80" y1="30" x2="130" y2="70" style="stroke:red;stroke-width:2"></line>
+                <line x1="130" y1="70" x2="180" y2="45" style="stroke:red;stroke-width:2"></line>
+
+            </svg>
+        </body>
+
+
+        </html>

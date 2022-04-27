@@ -1,0 +1,43 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>History</title>
+        <!--jquery-->
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <!--bootstrap-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+            <!--bootstrap-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"      rel="stylesheet"
+            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    </head>
+    <body>
+         <img id="result" alt="">
+            <div id="path"></div>
+            
+        
+               <script>
+                    var w;
+            
+                    function startWorker() {
+                        // questo if serve per vedere se sono supportati i web workers
+                        if (typeof (Worker) !== "undefined") {
+                            if (typeof (w) == "undefined") {
+                                w = new Worker("scripts/webworker.js");
+                            }
+                            // quando riceve il messaggio dal web worker modifica la pagina
+                            // ho aggiunto 2 console log così vedete tutto l'event che manda il web workers e event.data che usate
+                            w.onmessage = function (event) {
+                                console.log(event);
+                                console.log(event.data);
+                                document.querySelector("#result").setAttribute("src", event.data.path);
+                                document.querySelector("#path").innerHTML = "Dimensioni: " + event.data.measure[0] + "x" + event.data.measure[1];
+                            };
+                        }
+                    }
+                    startWorker();
+               </script>
+    </body>
+</html>

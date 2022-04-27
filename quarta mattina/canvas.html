@@ -1,0 +1,59 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myvideo2</title>
+    <!--jquery-->
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script>
+        function disegnaUnaForma () {
+            var canvas = document.getElementById('myCanvas');
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                //ctx.fillRect(25, 25, 100, 100); //valori: x, y, width, height espressi in pixel
+                ctx.strokeRect(50, 50, 50, 50);
+            }
+        }
+    </script>
+    <style type="text/css">
+        body {margin: 20px;}
+        canvas { border: 1px solid black; float: left; margin: 20px;}
+        #redrect {margin-top: 100px;}
+
+    </style>
+    </head>
+
+    <body onload="disegnaUnaForma();">
+        
+        <!-- CANVAS è un elemetno html5, può essere inteso come il corrispondente digitale di una tela trasparente
+        all'interno di questo spazio con specifiche API potremmo tracciare linee,cerchi, rettangoli, ecc...
+        è una grande matrice di pixel ognuno modificabile singolarmente nelle sue 4 componenti (RGB, alpha)
+
+        -->
+         <!--
+        <canvas width="100%" height="100%" id="mycanvas">
+            contenuto da mostrare
+            metodo getContext -> porta verso le API di disegno
+            var canvas = document.getElementById('mycanvas');
+            var contesto canvas.getContext("2d")  -> useremo solo 2d ma esiste anche la versione 3d
+            2d -> path, modificatori, immagini, testo
+           
+        </canvas>
+
+
+        SVG -> Scalable Vector Graphisc
+        definisce elementi di natura grafica attraverso una sintassi XML
+        differenze:
+        --- con canvas uso JS, con SVG uso tag HTML
+        --- con canvas ho una matrice di pixel, con SVG operiamo in grafica vettoriale (preservando il risultato a seconda delle trasformazione)
+        
+        -> il formato grafico vettoriale per il web è SVG
+        -> un immagine SVG è un file formato XML
+        -> in HTML possiamo creare animazioni e modificare immagini usando tag canvas e js
+         -->
+
+         <canvas id="myCanvas" height="400" width="400"></canvas>
+         <svg>
+             <rect id="redrect" width="300" height="100" fill="red"></rect>
+         </svg>
+         
+        </body>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width-device-width-initial-scale=1.0"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <title>jQuery</title>
+        <style>
+            div {
+                background-color: yellow;
+                height: 100px;
+                width: 100px;
+                position: absolute;
+            }
+        </style>
+
+        <script>
+            $("document").ready(function(){
+                $("button").click(function(){
+                    $("div").animate({
+                        left: '250px',
+                        opacity: "0.5",
+                        height: "150px",
+                        width: '150px',
+                        
+                    },
+                    "slow"
+                    );
+                });
+            });
+        </script>
+       </head>
+
+       <body>
+           <button>Start animation</button>
+           <div></div>
+           <!--
+               Di default tutti gli elementi html sono static e non possono essere mossi. Per manipolare la posizione dobbiamo prima settare la proprietà position nel css su qualsiasi altro valore (relative/fixed/absolute)
+           -->
+        <script>
+
+        </script>
+       </body>
+</html>

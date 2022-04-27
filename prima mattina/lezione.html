@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>lezione</title>
+        <meta charset="utf-8">
+        <script src="jquery-3.5.1.min.js"></script>
+        <meta name="viewport" content="width-device-width-initial-scale=1.0"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+       </head>
+    <body>
+        <a href="http://www.epicode.it" id="mioLink"></a>
+        
+        <script>
+            //trovare il valore dell'attributo href di un tag a con id mioLink
+            document.getElementById('mioLink').href;                        //javascript nativo
+            document.getElementById('mioLink').readAttribute('href');       //prototype estende il DOM
+            $("#mioLink").att("href");
+            // due caratteristiche: 1.codice breve; 2.posso usare selettori css come #
+            //terza caratteristica: i Metodi di jquery sono concatenabili e modificabili
+
+            $("#mioLink").text("Nuovo testo").css("color","red");
+            //cambio il testo del link e il colore
+
+            //*********SELEZIONARE ELEMENTI********
+            var elementi= $("#mioId");                  //l'utilizzo più comune  di $ è quello di fare da selettore css
+            //la stringa passata alla funzione $ deve rappresentare il selettore css degli elementi da ricercare
+            $("miaClasse");                             //seleziono tutti gli elementi con attributo class"=miaClass
+            $(".miaCLasse, #mioId, ul#mioMenu li");     //come nel css posso indicare più di un selettore 
+                                                        //seleziono una classe, un id e i li di una specifica lista ul
+            $(".miaClasse", document.getElementById('mioId'));
+                                                        //seleziono tutti gli elemetn con classe miaClasse dentro l'elemento #mioId
+            $(document.getElementById("mioId"));        //$ accetta anche i riferimenti diretti al DOM come argomento
+
+
+            //********* CREARE NUOVI ELEMENTI********
+            //uso sempre $ per molteplici scopi che cambiano in base all'argomento che passo
+            $("<div></div>");                           //crea un nuovo elemento semplicemente passando il tag
+            $("<div/>");                                //scrittura sintetica
+            //creare elementi complessi
+            var blocco = $ ("<div><p>Esempio di elementi <strong>nidificati</strong></p></div>");
+            //posso applicare tutti i metodi jquery ai nuovi elementi
+            blocco.addClass("nuovaClasse");             //aggiungo una classe a div
+            // per inserire gli elementi all'interno di una pagina usiamo il metodo appendTo
+            blocco.appendTo(document.body);             //inserisco nel body
+            blocco.appendTo('#contenitore');            //inserisco dentro ad un contenitore
+
+            //*********LANCIARE FUNZIONI AL CARICAMENTO DEL DOM********
+            // $ può avere come argomento una funzione --> le istruzioni passate vengono lanciate "on DOM ready" quando l'albero HTML viene caricato
+            $ (function() {
+                alert("DOM caricato!");
+            })
+            //è diverso da
+            window.onload = function () {
+                alert("DOM caricato!");         //viene lanciato quando tutto il documento è caricato(compresi css e img)func
+            }
+            //l'evento DOMready associo funzioni agli elementi del documento con la sicurezza di eseguirli dopo il caricamento completo
+            $(document).ready(function() {
+                alert("DOM caricato!");
+            })
+
+            // SELEZIONE
+            $("ul menu li"); //vogliamo nell'oggetto jquery tutti gli elementi lista del menu
+            //selettore base
+            $("a");                     //tutti i link del documento (tutti i tag a)
+            $("#blocco")                // un singolo elemento di un #blocco
+            $("a.external");            //solo i link con class=external;
+            $("#blocco. a.external");   //come nel css  posso indicare più selettori contemporaneamente
+            $("*");                     //tutti gli elementi
+
+            //SELETTORI GERARCHICI
+                                        //selettore spazio (padre-figlio)
+            $("#blocco a");              //selezioniamo tutti gli elementi che si trovano all'interno del contenitore genitore
+                                        //selettore -> (padre > figlio) elementi direttamente discendenti
+            $("ul > li");
+                                        //selettore + (precedente + adiacente)
+            $("div + span");            //selezio dal selettore di destra solo quelli immediatamente preceduti dal selettore di sx
+            /*
+            <div>Questo</div><span>si</span>
+            <div>Questo</div><img> <span>no</span>
+            */
+
+            $("label + input");         //sel$eziono i tag input preceduti da un tag label
+                                       
+            $('div ~ span')             //selettore ~  (precedente + seguente)
+                                        //seleziono tutti i fratelli anche non adiacenti
+
+            //selezionare per attributi
+            $("a[target='_blank']");        //seleziono link che aprono in nuove tab
+            $("a[target!='_blank']");       //seleziono i link che non aprono (!=) nuove tab
+
+            //********filtri******** --> sintassi simile ai pseudo selettori css --> :
+            $("#menu li:first child");      //il primo elemento della lista con id menu
+            $("#menu li:last child");      //l'ultimo elemento della lista con id menu
+                                            //filtro:nth-child()
+                                            //even --> solo elementi pari
+                                            //odd --> solo  elementi dispari
+                                            //indice --> un numero che indichi la posizione (partendo da 1)
+
+            $("div:hidden");                 //tutti i div nascosti:filtro per specifici criteri
+            $("#menu li:has(ul)");          //tutte le voci di menu che hanno un sottomenu (filtro in base ai contenuti)
+            $("a:not(.external)");          // tutti i link eccetto quelli con class="external" (filtro negativo)
+            $("#menu li:first");            //il primo tag della lista
+            $("#menu li:odd");              //tutti gli elementi odd di una lista
+            $("#menu li:eq(3)");            //solo il terzo elemento di una lista
+
+            //filtri per i form
+            $("input[type='text']");                    //seleziono i campi <input type="text">
+            $(":text");                                 //scrittura equivalente
+            $(":disabled").removeAttr("disabled");      //cerco gli elementi disabilitati e li elinino
+            $(":checked");                              //trovo i checkbox selezionati dall'utente
+            
+            //dimensione della selezione
+            //scopro quanti elementi il motore di selezione ha trovato
+            // 1. size();  2. lenght (tipica degli array)
+            $("#menu li").size();       //ci restituisce un numero
+            $("#menu li").length;       //ci restituisce un numero
+            var Liste = $("#menu li");
+            if (Liste.length > 0){
+                //esegui il codice solo se ci sono elementi
+            }
+            
+            //estrazione e indice degli elementi
+            //una volta appurata la presenza di elementi all'interno dell'oggeto jquery potrò lavorarci sopra
+            //il metodo .get()  rstituisce una collezione di elementi
+            var liste = $("menu li").get();                                             //jquery
+            var liste = document.getElementById("menu").getElementsByTagName("li");     //js
+            //siamo interessati solo ad un particolare elemento
+            var liste = $("#menu li").get(0);               //mi faccio dare solo il primo elemento della lista
+            var liste = $("#menu li").get(0).innerHTML;     //con javascript nativo
+            var liste = $("#menu li").eq(0).html();         //con metodo jquery
+            // .eq restituisce sempre un oggetto jquery e quindi ci dà la possibilità di applicare metodi jquery
+            
+            //ciclare gli elementi
+            // .each() permette di applicare una funzione specifica su ogni elemento della collezione
+            $("#menu li").each(function () {
+                var id = this.id;       //all'interno della funzione passata ad .each(), this rappresenta l'elemento speciigììfico
+            })
+            //uso comune di each: definisco gli argomenti per rappresentare l'elemento e il suo indice  nella collezione
+            // attenzione che il primo aegomento è l'indice
+            $("#menu li").each(function (i,el) {
+                var index = i;       //0, 1, 2...
+                var id = el.id;     //l'id dell'elemento
+                var id = $(el).attr("id");      //scrittura alternativa  dell'id dell'elemento
+
+            });
+
+            //lavorare con gli attributi
+            // gruppo di metodi di jquery funziona a seconda degli argomenti passati
+            /*
+            1 argomento stringa --> restituisce iol valore dell'attributo
+            2 argomenti stringa --> imposta ol valore dell'attributo
+            1 argomenti stringa e 1 funzine --> imposta l'attributo in base alla funzione
+            1 oggetto formato da coppie attributo/valore
+            */
+            $("a#mioLink").attr("href");            //1 argomento stringa -> restituisce il valore di href
+            $("a#mioLink").attr("href", "https://www.epicode.it");  //2 argomenti stringa imposta il valore
+            $("a#mioLink").attr("href", function(){});       //stringa + function imposta il valore di href in base alla funzione
+            $("a#mioLink").attr({
+                "href":"https://www.epicode.it",
+                "target":"_blank"                       //imposto attributi multipli:il valore di href e target
+            });  
+
+            //esempio di funzione con each
+            // raccogliere la lista di url da una serie di tag a
+            var listaURL = [];  //array di base vuoto
+            $("#menu li a").each( function(i, el){
+                listaURL.push($(el).attr("href"));
+            });
+
+
+            var listaURL = ["www.epicode.it", "wwww.html.it", "www.w3schools.com"];
+            $("#menu li a").attr("href", function(i, el) {
+                return listaURL[];
+            });
+            
+            //eliminare un attributo
+            $("#menu li a").removeAttr("href");
+
+
+            //*********GESTIRE LE CLASSI*******
+            // .nasClass () --> restituisce true se l'elemento ha una specifica classe
+            // .addClass () --> aggiunge una classe agli elementi
+            // .removeClasse () --> removeClass
+            // .toggleClass () --> se c'è elimina, se non c'è aggiunge
+            //negli argomenti possiamo dare più classi
+            // .toggleClass () può avere un secondo parametro true/false
+
+
+            //*******MANIPOLARE DEI CONTENUTI********
+            //manipolare il contenuto di html
+            // .text() --> permette di trovare/impostare il testo contenuto in un elemento
+            // .html() --> gestisce anche il codice html
+            // .stringa html --> <p> testo del <strong> paragrafo</strong></p>
+            $("p").text();      //testo del paragrafo
+            $("p").html();      //testo del <strong> paragrafo</strong>
+
+            //imposto
+            $("p").text("Nuovo testo");
+            $("p").html("Nuovo testo con <strong> HTML</strong>");
+            
+            //i metodi sono concatenabili
+            $("p").text("Nuovo testo").css("color", );
+            
+            </script>
+                                        
+    </body>
+</html>

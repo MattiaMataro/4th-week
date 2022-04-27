@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>myvideo2</title>
+        <!--jquery-->
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+        
+
+            <script>
+                var video;
+                eseguiplay = function () {
+                    video.play();
+                }
+                eseguipause = function() {
+                    video.pause();
+                }
+                doppiaVelocita = function () {
+                    video.playbackRate = 2.0;
+                }
+                posizionatialcentro = function () {
+                    video.currentTime = Math.round(video.duration / 2);
+                }
+
+                window.addEventListener('load', function(){     //al caricamento prende var video e lo mette nel tag video
+                    video = document.querySelector("video");
+                })
+    
+    
+            </script>
+    </head>
+    <body>
+        <video src="assets/video/trailer.mp4" controls></video>
+
+        <div>
+            <button type="button" onclick="eseguiplay()">Play</button>
+            <button type="button" onclick="eseguipause()">Pause</button>
+            <button type="button" onclick="doppiaVelocita()">2x</button>
+            <button type="button" onclick="posizionatialcentro()">Centro</button>
+        </div>
+
+        
+    </body>
+</html>
